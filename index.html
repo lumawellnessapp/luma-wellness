@@ -133,6 +133,23 @@ label{font-size:.75rem;color:#8a8378;display:block;margin-top:6px}
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
+/* Cacher le bouton natif du widget */
+netlifyIdentity.init();
+const w=document.querySelector('[data-netlify-identity-button]');
+if(w)w.style.display="none";
+
+let U=null;
+netlifyIdentity.on("init",u=>applyUser(u));
+netlifyIdentity.on("login",u=>{applyUser(u);netlifyIdentity.close();});
+netlifyIdentity.on("logout",()=>location.reload());
+
+function applyUser(u){U=u;
+ if(u){$("authScreen").classList.add("hidden");$("app").classList.remove("hidden");
+  $("userEmail").textContent=u.email;
+  $("hello").textContent="Bonjour "+(u.user_metadata.full_name||u.email.split("@")[0]);
+  fillProfile();renderHome();}
+ else{$("authScreen").classList.remove("hidden");$("app").classList.add("hidden");}}
+</script>
 /* ========= DONNÉES ========= */
 const RECIPES=[
  {n:"Bol de quinoa, avocat & graines",t:15,d:"Facile",tags:["rapide","végé","sans gluten"],p:12,g:45,l:18,f:8,k:380},
