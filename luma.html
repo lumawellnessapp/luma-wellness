@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LUMA Wellness — Mon assistant nutritionnel</title>
+<style>
+  :root{--beige:#f5f0e6;--blanc:#fdfbf7;--sage:#7a8b6f;--sage-fonce:#5f7055;--texte:#3d3a33;--gris:#8a857a;--vert:#4e8a5a;--orange:#d98e32;--rouge:#c05a4a;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--beige);color:var(--texte);max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom));}
+  header{background:var(--blanc);padding:calc(14px + env(safe-area-inset-top)) 16px 12px;position:sticky;top:0;z-index:20;border-bottom:1px solid #e8e2d5;}
+  header h1{font-size:1.25rem;font-weight:600;letter-spacing:.5px;color:var(--sage-fonce);}
+  header p{font-size:.78rem;color:var(--gris);margin-top:2px;}
+  main{padding:14px;}
+  .page{display:none;} .page.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .carte{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(90,80,60,.08);}
+  .carte h2{font-size:1rem;color:var(--sage-fonce);margin-bottom:8px;font-weight:600;}
+  .carte h3{font-size:.9rem;margin:10px 0 6px;}
+  .barre{height:8px;background:#ece6d8;border-radius:99px;overflow:hidden;margin:8px 0;}
+  .barre>div{height:100%;background:var(--sage);border-radius:99px;width:0%;transition:width .4s ease;}
+  .repas{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0ebdf;}
+  .repas:last-child{border-bottom:none;}
+  .repas input{width:22px;height:22px;accent-color:var(--sage);flex:none;}
+  .nom{font-size:.9rem;font-weight:500;} .detail{font-size:.75rem;color:var(--gris);}
+  .btn{display:block;width:100%;background:var(--sage);color:#fff;border:none;padding:13px;border-radius:12px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:8px;}
+  .btn:active{background:var(--sage-fonce);} .btn.secondaire{background:#e9e3d4;color:var(--texte);}
+  .chip{display:inline-block;background:#eef0e8;color:var(--sage-fonce);border-radius:99px;padding:6px 12px;font-size:.75rem;margin:3px 4px 3px 0;border:1px solid #dfe3d4;cursor:pointer;}
+  .chip.on{background:var(--sage);color:#fff;border-color:var(--sage);}
+  .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle;}
+  .v{background:var(--vert);} .o{background:var(--orange);} .r{background:var(--rouge);}
+  .ligne{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid #f0ebdf;font-size:.88rem;}
+  .ligne:last-child{border:none;}
+  .recherche{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd5c2;background:#fff;font-size:.9rem;margin-bottom:10px;}
+  .stat{display:flex;justify-content:space-between;font-size:.88rem;padding:7px 0;border-bottom:1px solid #f0ebdf;}
+  .stat:last-child{border:none;}
+  .vide{font-size:.85rem;color:var(--gris);text-align:center;padding:18px 8px;}
+  .petit{font-size:.75rem;color:var(--gris);} .ok{color:var(--sage-fonce);font-weight:600;}
+  select,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid #ddd5c2;background:#fff;font-size:.88rem;margin:6px 0;font-family:inherit;}
+  nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--blanc);display:flex;z-index:30;border-top:1px solid #e8e2d5;padding-bottom:env(safe-area-inset-bottom);}
+  nav button{flex:1;background:none;border:none;padding:8px 2px 10px;cursor:pointer;font-size:.58rem;color:var(--gris);display:flex;flex-direction:column;align-items:center;gap:3px;}
+  nav button .ico{font-size:1.2rem;} nav button.active{color:var(--sage-fonce);font-weight:700;}
+  @media(min-width:768px){body{max-width:520px;}}
+</style>
+</head>
+<body>
+<header><h1>LUMA</h1><p id="dateJour"></p></header>
+<main>
+
+<!-- ACCUEIL -->
+<section class="page active" id="p-accueil">
+  <div class="carte"><h2>🌿 Bonjour</h2><p class="petit">Ta journée alimentaire, selon ton programme anti-inflammatoire.</p></div>
+  <div class="carte"><h2>🍽️ Mes repas du jour</h2>
+    <div class="repas"><input type="checkbox" id="r-petitdej"><div><div class="nom">Petit-déjeuner</div><div class="detail">Protéines + bonnes graisses + fibres + 1 fruit</div></div></div>
+    <div class="repas"><input type="checkbox" id="r-dej"><div><div class="nom">Déjeuner</div><div class="detail">½ légumes · ¼ protéines · ¼ féculents</div></div></div>
+    <div class="repas"><input type="checkbox" id="r-diner"><div><div class="nom">Dîner — Assiette n°3</div><div class="detail">¾ légumes · ¼ protéines · bonnes graisses</div></div></div>
+    <div class="repas"><input type="checkbox" id="r-collation"><div><div class="nom">Collation (si faim)</div><div class="detail">Fruit + oléagineux, ou skyr nature</div></div></div>
+    <div class="barre"><div id="barreJour"></div></div><p class="petit ok" id="msgJour"></p></div>
+  <div class="carte"><h2>💧 Hydratation</h2><div class="barre"><div id="barreEau"></div></div><button class="btn" id="btnEau">+ 1 verre d'eau</button></div>
+</section>
+
+<!-- MES REPAS -->
+<section class="page" id="p-repas">
+  <div class="carte"><h2>🍽️ Mon programme</h2>
+    <h3>Petit-déjeuner</h3><p class="petit">Skyr + oléagineux + fruit · Œufs, avocat et fruit · Porridge maison · Pain au levain, purée d'oléagineux et fruit</p>
+    <h3>Déjeuner</h3><p class="petit">½ légumes, ¼ protéines, ¼ céréales/féculents, huile à froid, herbes et épices.</p>
+    <h3>Dîner — Assiette n°3</h3><p class="petit">¾ légumes, ¼ protéines, bonnes matières grasses. Féculents retirés le soir (recommandation temporaire de ta nutritionniste).</p></div>
+  <div class="carte"><h2>🍜 Je mange dehors</h2><div id="guidesResto"></div></div>
+  <div class="carte"><h2>🌾 Gluten au restaurant</h2><div id="glutenResto"></div></div>
+</section>
+
+<!-- GLUTEN -->
+<section class="page" id="p-gluten">
+  <div class="carte">
+    <h2>🌾 Gluten & digestion</h2>
+    <label class="petit">Mon mode :</label>
+    <select id="modeGluten">
+      <option value="reduction">Réduction du gluten (mon mode par défaut)</option>
+      <option value="strict">Sans gluten strict (indication médicale)</option>
+      <option value="aucun">Aucune restriction</option>
+    </select>
+    <p class="petit" id="txtMode"></p>
+  </div>
+  <div class="carte">
+    <h2>🔍 Rechercher un aliment</h2>
+    <input class="recherche" id="rechercheAliment" placeholder="Ex : pâtes, sauce soja, quinoa…">
+    <div id="resultatsAliments"></div>
+  </div>
+  <div class="carte">
+    <h2>📋 Guide des aliments</h2>
+    <p class="petit"><span class="dot v"></span>Naturellement sans gluten &nbsp; <span class="dot o"></span>À vérifier sur l'étiquette &nbsp; <span class="dot r"></span>Contient du gluten</p>
+    <div id="guideAliments" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- RECETTES -->
+<section class="page" id="p-recettes">
+  <div class="carte"><h2>📖 Mes recettes</h2>
+    <div class="chip on" data-f="Tous">Tous</div>
+    <div class="chip" data-f="sans">Naturellement sans gluten</div>
+    <div class="chip" data-f="limite">Gluten limité</div>
+    <div class="chip" data-f="avec">Contient du gluten</div>
+    <div class="chip" data-f="rapide">Rapide</div>
+    <div class="chip" data-f="diner">Dîner assiette 3</div>
+    <div id="listeRecettes" style="margin-top:10px;"></div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="page" id="p-courses">
+  <div class="carte"><h2>🛒 Ma liste de courses</h2>
+    <label class="petit"><input type="checkbox" id="filtreGluten" style="width:18px;height:18px;accent-color:var(--sage);"> Limiter le gluten (alternatives proposées)</label>
+    <button class="btn" id="btnGenerer">Générer depuis mes recettes du jour</button>
+    <button class="btn secondaire" id="btnVider">Vider la liste</button>
+    <ul id="listeCourses" style="margin-top:10px;"></ul>
+    <p class="petit" style="margin-top:8px;">⚠️ La lecture d'étiquette par photo n'est pas disponible dans cette version. Vérifie toujours les mentions « contient du gluten », blé, seigle, orge, épeautre, malt.</p>
+  </div>
+  <div class="carte"><h2>🥜 Mon panier de base</h2><p class="petit">Huile d'olive · œufs · skyr nature · oléagineux · fruits · légumes · herbes et épices · poisson/volaille · quinoa, sarrasin, riz, millet, lentilles</p></div>
+</section>
+
+<!-- SUIVI -->
+<section class="page" id="p-suivi">
+  <div class="carte"><h2>💊 Mes compléments</h2>
+    <div class="stat"><span>Physiomance Perméa+</span><span class="petit">posologie prescrite</span></div>
+    <button class="btn" id="btnPermea">✓ Prise du jour enregistrée</button>
+    <p class="petit ok" id="msgPermea"></p>
+    <p class="petit" style="margin-top:8px;">⚠️ Aucun dosage proposé ici : suis uniquement la posologie validée par ton professionnel de santé.</p></div>
+  <div class="carte"><h2>🌾 Journal digestif (facultatif)</h2>
+    <label class="petit">Repas concerné</label>
+    <select id="jRepas"><option>Petit-déjeuner</option><option>Déjeuner</option><option>Dîner</option><option>Collation</option><option>Repas dehors</option></select>
+    <label class="petit">Gluten</label>
+    <select id="jGluten"><option>Sans gluten connu</option><option>Gluten probable</option><option>Gluten connu</option></select>
+    <label class="petit">Confort digestif</label>
+    <select id="jConfort"><option>Confortable</option><option>Légers ballonnements</option><option>Ballonnements</option><option>Douleurs abdominales</option></select>
+    <label class="petit">Observation personnelle</label>
+    <textarea id="jObs" rows="2" placeholder="Ce que j'ai ressenti…"></textarea>
+    <button class="btn" id="btnJournal">Enregistrer</button>
+    <div id="historiqueJ" style="margin-top:10px;"></div>
+    <p class="petit" style="margin-top:6px;">Ce journal note tes observations ; il n'établit aucun diagnostic ni lien automatique avec le gluten.</p></div>
+  <div class="carte"><h2>📊 Ma journée</h2>
+    <div class="stat"><span>Repas suivis</span><span id="sRepas">0 / 4</span></div>
+    <div class="stat"><span>Verres d'eau</span><span id="sEau">0 / 8</span></div>
+    <div class="stat"><span>Perméa+ aujourd'hui</span><span id="sPermea">Non</span></div></div>
+</section>
+</main>
+
+<nav>
+  <button data-page="p-accueil" class="active"><span class="ico">🏠</span>Accueil</button>
+  <button data-page="p-repas"><span class="ico">🍽️</span>Repas</button>
+  <button data-page="p-gluten"><span class="ico">🌾</span>Gluten</button>
+  <button data-page="p-recettes"><span class="ico">📖</span>Recettes</button>
+  <button data-page="p-courses"><span class="ico">🛒</span>Courses</button>
+  <button data-page="p-suivi"><span class="ico">📊</span>Suivi</button>
+</nav>
+
+<script>
+/* ===== DONNÉES ===== */
+const ALIMENTS=[
+ {n:"Quinoa",c:"v"},{n:"Riz",c:"v"},{n:"Sarrasin",c:"v"},{n:"Millet",c:"v"},{n:"Pommes de terre",c:"v"},
+ {n:"Lentilles, pois chiches",c:"v"},{n:"Légumes frais",c:"v"},{n:"Fruits frais",c:"v"},{n:"Œufs",c:"v"},
+ {n:"Poisson, volaille, viande",c:"v"},{n:"Huile d'olive, oléagineux",c:"v"},{n:"Laitages nature",c:"v"},
+ {n:"Pâtes au blé",c:"r"},{n:"Pain blanc/au levain classique",c:"r"},{n:"Bière",c:"r"},{n:"Farine de blé",c:"r"},
+ {n:"Seigle, orge, épeautre",c:"r"},{n:"Sauce soja classique",c:"r"},{n:"Malt",c:"r"},
+ {n:"Sauces industrielles",c:"o"},{n:"Plats préparés",c:"o"},{n:"Sauce soja (vérifier)",c:"o"},
+ {n:"Chocolat au lait / tablettes",c:"o"},{n:"Muesli / céréales du petit-déj",c:"o"},{n:"Pâtisseries industrielles",c:"o"}
+];
+const GLUTEN_RESTO=[
+ {t:"Italienne",g:"Pâtes, pizza, pain, gnocchi, tiramisu."},
+ {t:"Japonaise",g:"Sauce soja classique, tempura, nouilles udon/soba (souvent au blé), miso parfois."},
+ {t:"Française/brasserie",g:"Sauces liées à la farine, pain, quiches, pâtisseries."},
+ {t:"Asiatique",g:"Nouilles, nems frits, sauces épaissies, soja classique."},
+ {t:"Fast-food",g:"Burgers, wraps, panures, frites parfois panées, sauces."}
+];
+const PHRASES=[
+ "« Bonjour, je limite le gluten : avez-vous des plats naturellement sans gluten ? »",
+ "« La sauce soja contient-elle du blé ? »",
+ "« Pouvez-vous servir la sauce à part ? »",
+ "« Avez-vous du riz ou des légumes à la place des pâtes ? »"
+];
+const RECETTES=[
+ {nom:"Porridge maison aux graines et fruits rouges",f:["sans","rapide"],tps:"10 min",ing:["Flocons d'avoine sans gluten 40 g","Lait 200 ml","Graines de chia 1 càc","Fruits rouges 1 poignée"],sub:null,desc:"Vérifier le logo « sans gluten » sur les flocons d'avoine (risque de contamination croisée)."},
+ {nom:"Œufs brouillés, avocat et tomate",f:["sans","rapide"],tps:"10 min",ing:["Œufs 2","Avocat ½","Tomate 1","Huile d'olive 1 càc"],sub:null,desc:"Naturellement sans gluten."},
+ {nom:"Salade de lentilles tièdes aux légumes",f:["sans","limite"],tps:"25 min",ing:["Lentilles 150 g","Carotte 1","Concombre ½","Huile d'olive 1 càs","Citron"],sub:null,desc:"Naturellement sans gluten, riche en fibres."},
+ {nom:"Pâtes complètes sauce tomate maison",f:["avec"],tps:"20 min",ing:["Pâtes au blé 80 g","Tomates concassées","Ail","Huile d'olive","Basilic"],sub:"Remplacer par des pâtes de riz ou de lentilles (même quantité, cuisson selon paquet, texture plus ferme).",desc:"Contient du gluten — alternative disponible."},
+ {nom:"Poulet rôti, quinoa et légumes rôtis",f:["sans"],tps:"35 min",ing:["Blanc de poulet 150 g","Quinoa 80 g","Courgette 1","Poivron 1","Herbes de Provence"],sub:null,desc:"Naturellement sans gluten."},
+ {nom:"Saumon au four, brocolis vapeur",f:["sans","rapide","diner"],tps:"20 min",ing:["Pavé de saumon 150 g","Brocolis 200 g","Huile d'olive 1 càs","Citron ½"],sub:null,desc:"Assiette n°3 : ¾ légumes, ¼ protéines, oméga-3."},
+ {nom:"Velouté de courgettes au curry, pois chiches grillés",f:["sans","diner"],tps:"30 min",ing:["Courgettes 3","Pois chiches 120 g","Lait de coco léger 100 ml","Curry 1 càc"],sub:null,desc:"Dîner assiette 3, naturellement sans gluten."},
+ {nom:"Omelette aux épinards et feta, salade verte",f:["sans","rapide","diner"],tps:"15 min",ing:["Œufs 3","Épinards 100 g","Feta 40 g","Salade 1 poignée","Huile d'olive 1 càc"],sub:null,desc:"Rapide et rassasiant, assiette 3."},
+ {nom:"Pain au levain, purée d'amandes et fruit",f:["avec"],tps:"5 min",ing:["Pain au levain 2 tranches","Purée d'amandes 1 càs","Pomme 1"],sub:"Remplacer le pain par 2 galettes de riz complet ou pain sans gluten certifié (texture différente, à toaster).",desc:"Petit-déj avec gluten — alternative disponible."},
+ {nom:"Buddha bowl au sarrasin et houmous",f:["sans","limite"],tps:"20 min",ing:["Sarrasin 80 g","Carotte râpée","Concombre","Houmous 2 càs","Graines de courge"],sub:null,desc:"Préparable à l'avance, transportable."}
+];
+const RESTOS=[
+ {type:"Italien",conseil:"Légumes grillés, poissons, pâtes complètes sauce tomate. Sauces à part. Évite fritures et crèmes."},
+ {type:"Japonais",conseil:"Sashimi, soupe miso, riz vinaigré. Limite tempura et sauces sucrées."},
+ {type:"Libanais",conseil:"Mezze de légumes, grillades. Tahini plutôt que sauces sucrées."},
+ {type:"Indien",conseil:"Tandoori, dal, légumes au curry. Sauces peu sucrées."},
+ {type:"Brasserie",conseil:"Poisson grillé, légumes de saison, sauce à part."},
+ {type:"Fast-food",conseil:"Burger sans fromage + salade, ou wrap poulet grillé, eau plate. Pas de compensation au repas suivant."},
+ {type:"Buffet/brunch",conseil:"Légumes et protéines d'abord, un fruit, féculent modéré."}
+];
+const ALT_SANS_GLUTEN=["Quinoa","Sarrasin","Riz complet","Millet","Pommes de terre","Lentilles","Farine de riz / maïs / châtaigne"];
+
+/* ===== STOCKAGE ===== */
+const cle=()=>"luma_"+new Date().toISOString().slice(0,10);
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d;}catch(e){return d;}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let etat=load(cle(),{repas:{},eau:0,permea:false,courses:[],journal:[],modeGluten:"reduction"});
+
+/* ===== NAV ===== */
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active"); document.getElementById(b.dataset.page).classList.add("active");
+}));
+
+/* ===== ACCUEIL ===== */
+const idsRepas=["r-petitdej","r-dej","r-diner","r-collation"];
+function majAccueil(){
+ let n=0;
+ idsRepas.forEach(id=>{const c=document.getElementById(id);c.checked=!!etat.repas[id];if(c.checked)n++;});
+ document.getElementById("barreJour").style.width=(n/4*100)+"%";
+ document.getElementById("msgJour").textContent=n===4?"✨ Journée complète, bravo !":"";
+ document.getElementById("barreEau").style.width=Math.min(etat.eau/8*100,100)+"%";
+ document.getElementById("sRepas").textContent=n+" / 4";
+ document.getElementById("sEau").textContent=etat.eau+" / 8";
+ document.getElementById("sPermea").textContent=etat.permea?"Oui ✓":"Non";
+ document.getElementById("msgPermea").textContent=etat.permea?"Prise enregistrée ✓":"";
+}
+idsRepas.forEach(id=>document.getElementById(id).addEventListener("change",e=>{etat.repas[id]=e.target.checked;save(cle(),etat);majAccueil();}));
+document.getElementById("btnEau").addEventListener("click",()=>{etat.eau=Math.min(etat.eau+1,12);save(cle(),etat);majAccueil();});
+document.getElementById("btnPermea").addEventListener("click",()=>{etat.permea=true;save(cle(),etat);majAccueil();});
+
+/* ===== GLUTEN ===== */
+const modeSel=document.getElementById("modeGluten");
+modeSel.value=etat.modeGluten;
+function majMode(){
+ etat.modeGluten=modeSel.value; save(cle(),etat);
+ document.getElementById("txtMode").textContent =
+  etat.modeGluten==="reduction" ? "Mode actif : réduction volontaire du gluten, selon la recommandation de ta nutritionniste. Ce n'est pas une éviction médicale stricte." :
+  etat.modeGluten==="strict" ? "Mode strict : précautions de contamination croisée applicables (ustensiles dédiés, produits certifiés). Réservé à une indication médicale." :
+  "Aucune restriction active.";
+}
+modeSel.addEventListener("change",majMode);
+function couleur(c){return c==="v"?"v":c==="o"?"o":"r";}
+function renderGuide(filtre=""){
+ const c=document.getElementById("guideAliments"); c.innerHTML="";
+ const liste=ALIMENTS.filter(a=>a.n.toLowerCase().includes(filtre.toLowerCase()));
+ if(!liste.length){c.innerHTML='<p class="vide">Aucun aliment trouvé.</p>';return;}
+ liste.forEach(a=>{
+  const d=document.createElement("div"); d.className="ligne";
+  d.innerHTML=`<span class="dot ${couleur(a.c)}"></span><span>${a.n}</span>`;
+  c.appendChild(d);
+ });
+}
+document.getElementById("rechercheAliment").addEventListener("input",e=>renderGuide(e.target.value));
+function renderGlutenResto(){
+ const c=document.getElementById("glutenResto"); c.innerHTML="";
+ GLUTEN_RESTO.forEach(r=>{
+  const d=document.createElement("div"); d.className="ligne"; d.style.alignItems="flex-start";
+  d.innerHTML=`<div><b>${r.t}</b><br><span class="petit">${r.g}</span></div>`;
+  c.appendChild(d);
+ });
+ const p=document.createElement("div"); p.style.marginTop="10px";
+ p.innerHTML="<h3>Phrases utiles</h3>"+PHRASES.map(x=>`<p class="petit" style="margin:4px 0;">${x}</p>`).join("");
+ c.appendChild(p);
+}
+
+/* ===== RECETTES ===== */
+let filtreR="Tous";
+document.querySelectorAll("#p-recettes .chip").forEach(ch=>ch.addEventListener("click",()=>{
+ document.querySelectorAll("#p-recettes .chip").forEach(x=>x.classList.remove("on"));
+ ch.classList.add("on"); filtreR=ch.dataset.f; renderRecettes();
+}));
+function renderRecettes(){
+ const c=document.getElementById("listeRecettes"); c.innerHTML="";
+ const liste=RECETTES.filter(r=>filtreR==="Tous"||r.f.includes(filtreR));
+ liste.forEach(r=>{
+  const d=document.createElement("div"); d.className="carte";
+  const badge=r.f.includes("sans")?'<span class="dot v"></span>sans gluten':r.f.includes("avec")?'<span class="dot r"></span>contient du gluten':'<span class="dot o"></span>';
+  d.innerHTML=`<div class="nom">${badge} ${r.nom}</div><div class="petit" style="margin:4px 0;">⏱ ${r.tps}</div><p class="petit">${r.desc}</p>${r.sub?`<p class="petit" style="margin-top:4px;"><b>🔄 Alternative :</b> ${r.sub}</p>`:""}`;
+  const b=document.createElement("button"); b.className="btn secondaire"; b.textContent="🛒 Ajouter les ingrédients";
+  b.onclick=()=>{r.ing.forEach(i=>{if(!etat.courses.includes(i))etat.courses.push(i);});save(cle(),etat);renderCourses();alert("Ajouté à tes courses 🛒");};
+  d.appendChild(b); c.appendChild(d);
+ });
+ if(!liste.length)c.innerHTML='<p class="vide">Aucune recette pour ce filtre.</p>';
+}
+
+/* ===== RESTOS ===== */
+function renderRestos(){
+ const c=document.getElementById("guidesResto"); c.innerHTML="";
+ RESTOS.forEach(r=>{const d=document.createElement("div");d.className="carte";d.innerHTML=`<h3>${r.type}</h3><p class="petit">${r.conseil}</p>`;c.appendChild(d);});
+}
+
+/* ===== COURSES ===== */
+function renderCourses(){
+ const ul=document.getElementById("listeCourses"); ul.innerHTML="";
+ const limite=document.getElementById("filtreGluten").checked;
+ let liste=etat.courses;
+ if(limite) liste=liste.concat(ALT_SANS_GLUTEN.filter(a=>!liste.includes(a)));
+ if(!liste.length){ul.innerHTML='<p class="vide">Liste vide.</p>';return;}
+ liste.forEach(i=>{
+  const li=document.createElement("li"); li.style.cssText="list-style:none;display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ebdf;font-size:.9rem;";
+  li.innerHTML=`<input type="checkbox" style="width:20px;height:20px;accent-color:var(--sage);"><span>${i}</span>`;
+  li.querySelector("input").onchange=e=>{if(e.target.checked){etat.courses=etat.courses.filter(x=>x!==i);save(cle(),etat);renderCourses();}};
+  ul.appendChild(li);
+ });
+}
+document.getElementById("filtreGluten").addEventListener("change",renderCourses);
+document.getElementById("btnGenerer").addEventListener("click",()=>{
+ ["Œufs 2","Avocat ½","Pavé de saumon 150 g","Brocolis 200 g","Huile d'olive 1 càs","Quinoa 80 g"].forEach(i=>{if(!etat.courses.includes(i))etat.courses.push(i);});
+ save(cle(),etat);renderCourses();
+});
+document.getElementById("btnVider").addEventListener("click",()=>{etat.courses=[];save(cle(),etat);renderCourses();});
+
+/* ===== JOURNAL ===== */
+document.getElementById("btnJournal").addEventListener("click",()=>{
+ etat.journal.unshift({repas:document.getElementById("jRepas").value,gluten:document.getElementById("jGluten").value,confort:document.getElementById("jConfort").value,obs:document.getElementById("jObs").value,date:new Date().toLocaleDateString("fr-FR")});
+ save(cle(),etat); renderJournal(); document.getElementById("jObs").value="";
+});
+function renderJournal(){
+ const c=document.getElementById("historiqueJ"); c.innerHTML="";
+ if(!etat.journal.length){c.innerHTML='<p class="vide">Aucune entrée pour le moment.</p>';return;}
+ etat.journal.slice(0,10).forEach(j=>{
+  const d=document.createElement("div"); d.className="stat";
+  d.innerHTML=`<span>${j.date} · ${j.repas}</span><span class="petit">${j.gluten} — ${j.confort}${j.obs?" · "+j.obs:""}</span>`;
+  c.appendChild(d);
+ });
+}
+
+/* ===== INIT ===== */
+document.getElementById("dateJour").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+renderRestos(); renderGlutenResto(); renderGuide(); majMode(); renderRecettes(); renderCourses(); renderJournal(); majAccueil();
+</script>
+</body>
+</html>
