@@ -5,373 +5,252 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LUMA Wellness</title>
 <style>
-:root{--beige:#F3EDE3;--creme:#FBF8F2;--sauge:#8FA98F;--lichen:#6F8F6F;--lav:#C9BFD9;--ink:#3E3A33;--rouge:#C07A6A}
+:root{--beige:#F3EDE3;--creme:#FBF8F2;--sauge:#8FA98F;--lichen:#6F8F6F;--lav:#C9BFD9;--ink:#3E3A33;--rouge:#C07A6A;--orange:#D9A05B}
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,"Segoe UI",system-ui,sans-serif;background:var(--creme);color:var(--ink)}
-.root{max-width:480px;margin:0 auto;min-height:100dvh;padding-bottom:88px}
-h1,h2,h3,h4{margin:0;font-weight:500}
-.page{display:none;padding:14px 14px 24px}
+.root{max-width:480px;margin:0 auto;min-height:100dvh;padding-bottom:92px}
+.page{display:none;padding:14px}
 .page.active{display:block}
-.top{position:sticky;top:0;background:var(--creme);padding:14px 14px 6px;z-index:5}
-.top h1{font-size:1.3rem}.top p{font-size:.78rem;color:#8a8378;margin:2px 0 0}
+.top{position:sticky;top:0;background:var(--creme);padding:16px 14px 8px;z-index:5}
+.top h1{font-size:1.35rem;font-weight:500;margin:0}
+.top p{font-size:.78rem;color:#8a8378;margin:3px 0 0}
 .card{background:#fff;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(62,58,51,.06)}
-.card h3{font-size:.95rem;margin-bottom:8px}
-.chip{display:inline-block;background:var(--beige);border-radius:999px;padding:6px 12px;font-size:.75rem;margin:2px 4px 2px 0;cursor:pointer;user-select:none}
+.card h3{font-size:.95rem;margin:0 0 8px;font-weight:600}
+.chip{display:inline-block;background:var(--beige);border-radius:999px;padding:7px 13px;font-size:.75rem;margin:2px 4px 2px 0;cursor:pointer;user-select:none;border:none}
 .chip.on{background:var(--sauge);color:#fff}
-.chip.warn.on{background:var(--rouge);color:#fff}
-.btn{border:none;border-radius:999px;background:var(--lichen);color:#fff;padding:11px 20px;font-size:.85rem;cursor:pointer;min-height:44px}
+.btn{border:none;border-radius:999px;background:var(--lichen);color:#fff;padding:12px 22px;font-size:.85rem;cursor:pointer;min-height:44px;width:100%;margin-top:6px}
 .btn.ghost{background:var(--beige);color:var(--ink)}
-.btn.small{padding:8px 14px;font-size:.78rem}
-input,select{width:100%;padding:10px;border:1px solid var(--beige);border-radius:12px;font-size:.85rem;margin:4px 0 10px;background:#fff;color:var(--ink)}
+.btn.small{width:auto;padding:8px 16px;font-size:.78rem}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--beige);border-radius:12px;font-size:.85rem;margin:4px 0 10px;background:var(--creme);font-family:inherit}
 label{font-size:.75rem;color:#8a8378;display:block;margin-top:6px}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:#fff;border-top:1px solid var(--beige);padding-bottom:env(safe-area-inset-bottom);z-index:10}
-.nav button{flex:1;border:none;background:none;padding:8px 0 6px;font-size:.66rem;color:#8a8378;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.nav button.on{color:var(--lichen);font-weight:600}.nav .ic{font-size:1.2rem}
+.row{display:flex;justify-content:space-between;font-size:.8rem;padding:7px 0;border-bottom:1px solid var(--beige)}
+.row:last-child{border-bottom:none}
+.demo{background:#FDF3E7;border:1px dashed var(--orange);border-radius:10px;padding:8px;font-size:.72rem;color:#8a6a3a;margin-bottom:10px}
+.badge{display:inline-block;font-size:.65rem;border-radius:999px;padding:3px 9px;margin-left:6px}
+.b-green{background:#E4EFE4;color:var(--lichen)}.b-orange{background:#FBEEDD;color:#A06A2C}.b-red{background:#F7E3DE;color:var(--rouge)}
+.recipe img,.meal img{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:8px}
+.tag{font-size:.68rem;background:var(--beige);border-radius:6px;padding:2px 7px;margin-right:4px}
 .bar{height:8px;background:var(--beige);border-radius:99px;overflow:hidden;margin:6px 0}
-.bar i{display:block;height:100%;background:var(--sauge)}
-.demo{background:#fdf3e7;border:1px dashed var(--rouge);color:#8a4a3a;font-size:.72rem;border-radius:10px;padding:6px 10px;margin-bottom:8px}
-.row{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;padding:5px 0;border-bottom:1px solid var(--beige)}
-.chk{display:flex;align-items:center;gap:8px;font-size:.85rem;padding:6px 0}
-.chk input{width:auto;margin:0}
-.chat{max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px 0}
-.msg{max-width:85%;padding:8px 12px;border-radius:14px;font-size:.8rem}
-.msg.user{background:var(--sauge);color:#fff;align-self:flex-end}
-.msg.bot{background:var(--beige);align-self:flex-start}
-.chart{display:flex;align-items:flex-end;gap:6px;height:80px;background:var(--beige);border-radius:12px;padding:8px}
-.chart div{flex:1;background:var(--sauge);border-radius:6px 6px 0 0}
-.gfV{color:var(--lichen);font-weight:600}.gfO{color:#b8860b;font-weight:600}.gfR{color:var(--rouge);font-weight:600}
+.bar>div{height:100%;background:var(--sauge);border-radius:99px}
+#nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(62,58,51,.08);z-index:10}
+#nav button{border:none;background:none;font-size:.62rem;color:#8a8378;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:44px;cursor:pointer}
+#nav button.on{color:var(--lichen);font-weight:600}
+#nav span{font-size:1.15rem}
+#authScreen{padding:40px 20px;text-align:center}
+#authScreen h1{font-size:1.6rem;margin-bottom:6px}
+#authScreen p{color:#8a8378;font-size:.85rem}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 <div class="root">
 
-<section id="p-home" class="page active">
-  <div class="top"><h1 id="homeHello">Bonjour 👋</h1><p id="homeDate"></p></div>
-  <div class="card"><h3>💧 Hydratation</h3>
-    <div class="bar"><i id="waterBar" style="width:0%"></i></div>
-    <button class="btn small" onclick="addWater()">+1 verre</button> <span id="waterTxt" style="font-size:.8rem">0/8</span>
+  <!-- ÉCRAN DE CONNEXION -->
+  <div id="authScreen">
+    <h1>🌿 LUMA</h1>
+    <p>Votre assistant nutritionnel personnel</p>
+    <button class="btn" onclick="netlifyIdentity.open('login')">Se connecter</button>
+    <button class="btn ghost" onclick="netlifyIdentity.open('signup')">Créer un compte</button>
   </div>
-  <div class="card"><h3>💊 Compléments du jour</h3>
-    <div class="chk"><input type="checkbox" id="sup1" onchange="takeSup(this.checked)"><label for="sup1" style="margin:0">Physiomance Permea+ (posologie selon ordonnance)</label></div>
+
+  <!-- APPLI (visible une fois connecté) -->
+  <div id="app" class="hidden">
+    <div class="top"><h1 id="hello">Bonjour</h1><p id="homeDate"></p></div>
+
+    <!-- ACCUEIL -->
+    <section class="page active" id="p-home">
+      <div class="card"><h3>💧 Hydratation</h3><div class="bar"><div id="waterBar" style="width:0%"></div></div>
+        <button class="btn small ghost" onclick="addWater()">+ 1 verre</button><span id="waterTxt" style="font-size:.75rem;color:#8a8378"></span></div>
+      <div class="card"><h3>🍽️ Aujourd'hui</h3><div id="todayMeals"></div></div>
+      <div class="card"><h3>💊 Mes compléments</h3><div id="supps"></div></div>
+      <div class="card"><h3>💡 Conseil du jour</h3><p id="tip" style="font-size:.82rem;margin:0"></p></div>
+    </section>
+
+    <!-- PROFIL -->
+    <section class="page" id="p-profile">
+      <div class="card"><h3>👤 Mon profil</h3>
+        <label>Prénom</label><input id="f-name" placeholder="Votre prénom">
+        <label>Sexe</label><select id="f-sex"><option value="">—</option><option>Femme</option><option>Homme</option><option>Autre</option></select>
+        <label>Âge</label><input id="f-age" type="number" placeholder="ex: 34">
+        <label>Taille (cm)</label><input id="f-height" type="number" placeholder="ex: 165">
+        <label>Poids (kg, facultatif)</label><input id="f-weight" type="number" placeholder="ex: 62">
+        <label>Objectif</label><select id="f-goal"><option>Équilibre</option><option>Perte</option><option>Maintien</option><option>Prise de masse</option></select>
+        <label>Mode gluten</label><select id="f-gluten"><option value="reduction">Réduction du gluten</option><option value="strict">Sans gluten strict</option><option value="none">Aucune restriction</option></select>
+        <label>Intolérances / allergies (séparées par des virgules)</label><input id="f-intol" placeholder="ex: lactose, arachides">
+        <label>Pathologies / traitements (informatives)</label><textarea id="f-patho" rows="2" placeholder="ex: hypothyroïdie, traitement..."></textarea>
+        <button class="btn" onclick="saveProfile()">Enregistrer mon profil</button>
+      </div>
+      <div class="card"><h3>⚙️ Compte</h3><p style="font-size:.8rem" id="userEmail"></p>
+        <button class="btn ghost" onclick="netlifyIdentity.logout()">Se déconnecter</button></div>
+    </section>
+
+    <!-- REPAS -->
+    <section class="page" id="p-meals">
+      <div class="card"><h3>🍳 Mes recettes rapides</h3>
+        <div id="mealFilters"></div><div id="mealList"></div></div>
+    </section>
+
+    <!-- GUIDES -->
+    <section class="page" id="p-guides">
+      <div class="card"><h3>🔥 Aliments anti-inflammatoires</h3><div id="antiInf"></div></div>
+      <div class="card"><h3>🌾 Gluten & remplacements</h3><input id="glutenSearch" placeholder="Rechercher un aliment..." oninput="renderGluten()">
+        <div id="glutenList"></div></div>
+      <div class="card"><h3>🍽️ Au restaurant</h3>
+        <div id="restauChips"></div><div id="restauAdvice" style="font-size:.82rem;margin-top:8px"></div></div>
+      <div class="card"><h3>📷 Scan produit (démo)</h3>
+        <div class="demo">⚠️ Démonstration fictive — aucun vrai scan n'est effectué.</div>
+        <select id="scanSel" onchange="doScan(this.value)"><option value="">Choisir un produit…</option></select>
+        <div id="scanResult" style="margin-top:8px"></div></div>
+    </section>
+
+    <!-- COURSES -->
+    <section class="page" id="p-shop">
+      <div class="card"><h3>🛒 Ma liste de courses</h3><div id="shopList"></div>
+        <input id="newItem" placeholder="Ajouter un produit…">
+        <button class="btn" onclick="addItem()">Ajouter</button></div>
+    </section>
+
+    <!-- SUIVI -->
+    <section class="page" id="p-track">
+      <div class="card"><h3>📊 Mon suivi</h3>
+        <label>Énergie aujourd'hui (1-5)</label><input id="t-energy" type="number" min="1" max="5">
+        <label>Confort digestif (1-5)</label><input id="t-digest" type="number" min="1" max="5">
+        <label>Note</label><input id="t-note" placeholder="Une observation…">
+        <button class="btn" onclick="saveTrack()">Enregistrer</button></div>
+      <div class="card"><h3>📈 Cette semaine</h3><canvas id="chart" width="320" height="120"></canvas></div>
+    </section>
+
+    <nav id="nav">
+      <button data-p="p-home" class="on" onclick="go('p-home',this)"><span>🏠</span>Accueil</button>
+      <button data-p="p-profile" onclick="go('p-profile',this)"><span>👤</span>Profil</button>
+      <button data-p="p-meals" onclick="go('p-meals',this)"><span>🍳</span>Repas</button>
+      <button data-p="p-guides" onclick="go('p-guides',this)"><span>📖</span>Guides</button>
+      <button data-p="p-shop" onclick="go('p-shop',this)"><span>🛒</span>Courses</button>
+      <button data-p="p-track" onclick="go('p-track',this)"><span>📊</span>Suivi</button>
+    </nav>
   </div>
-  <div class="card"><h3>🍽️ Aujourd'hui</h3><div id="todayMeals"></div></div>
-  <div class="card"><h3>🚀 Accès rapide</h3>
-    <button class="btn ghost small" onclick="go('p-guide')">Guide nutrition</button>
-    <button class="btn ghost small" onclick="go('p-gluten')">Mon gluten</button>
-    <button class="btn ghost small" onclick="go('p-restau')">Manger dehors</button>
-    <button class="btn ghost small" onclick="go('p-scan')">Scan produit</button>
-  </div>
-</section>
-
-<section id="p-profile" class="page">
-  <div class="top"><h1>Mon profil</h1><p>Personnalise ton accompagnement</p></div>
-  <div class="card">
-    <label>Prénom</label><input id="prName" placeholder="Ton prénom">
-    <label>Sexe</label><select id="prSex"><option value="femme">Femme</option><option value="homme">Homme</option><option value="autre">Autre</option></select>
-    <label>Âge</label><input id="prAge" type="number" placeholder="ex: 32">
-    <label>Taille (cm)</label><input id="prHeight" type="number" placeholder="ex: 170">
-    <label>Poids (kg) — facultatif</label><input id="prWeight" type="number" placeholder="ex: 65">
-    <label>Objectif</label><select id="prGoal"><option>équilibre</option><option>perte</option><option>maintien</option><option>prise de masse</option></select>
-    <label>Activité physique</label><select id="prAct"><option>sédentaire</option><option>modérée</option><option>régulière</option><option>intense</option></select>
-    <h3 style="margin-top:10px">Intolérances</h3><div id="prIntol"></div>
-    <label>Pathologies / traitements (privé, facultatif)</label><input id="prPatho" placeholder="ex: hypothyroïdie...">
-    <h3 style="margin-top:10px">Mode gluten</h3>
-    <div id="glutenModeBtns"></div>
-    <button class="btn" style="margin-top:12px" onclick="saveProfile()">Enregistrer</button>
-    <p id="profMsg" style="font-size:.78rem;color:var(--lichen)"></p>
-  </div>
-</section>
-
-<section id="p-recipes" class="page">
-  <div class="top"><h1>Mes recettes</h1><p id="recCount"></p></div>
-  <div class="card"><h3>Filtres</h3><div id="recFilters"></div></div>
-  <div id="recList"></div>
-</section>
-
-<section id="p-shop" class="page">
-  <div class="top"><h1>Mes courses</h1><p>Adaptées à mon profil</p></div>
-  <div class="card"><h3>🛒 Liste hebdomadaire</h3><div id="shopList"></div>
-    <button class="btn small" onclick="addShopItem()">+ Ajouter</button></div>
-  <div class="card"><h3>🏠 Mon placard idéal</h3><div id="pantry"></div>
-    <button class="btn ghost small" onclick="addPantryItem()">+ Ajouter au placard</button></div>
-</section>
-
-<section id="p-suivi" class="page">
-  <div class="top"><h1>Mon suivi</h1><p>Sans jugement, juste des tendances</p></div>
-  <div class="card"><h3>📊 Énergie (7 derniers jours)</h3><div class="chart" id="chart"></div></div>
-  <div class="card"><h3>Bilan du jour</h3>
-    <label>Énergie (1-10)</label><input id="sEnergie" type="number" min="1" max="10">
-    <label>Sommeil (heures)</label><input id="sSommeil" type="number" step="0.5">
-    <label>Confort digestif</label><select id="sDigestion"><option>bonne</option><option>moyenne</option><option>gênante</option></select>
-    <button class="btn" onclick="saveBilan()">Enregistrer</button><p id="bilanMsg" style="font-size:.78rem;color:var(--lichen)"></p>
-  </div>
-</section>
-
-<section id="p-guide" class="page">
-  <div class="top"><h1>Guide nutrition</h1><p>Anti-inflammatoire & substitutions</p></div>
-  <div class="card"><h3>🔥 À privilégier</h3><div id="antiInf"></div></div>
-  <div class="card"><h3>🌿 À limiter</h3><div id="proInf"></div></div>
-  <div class="card"><h3>🔁 Je remplace par quoi ?</h3><div id="subs"></div></div>
-</section>
-
-<section id="p-gluten" class="page">
-  <div class="top"><h1>Mon gluten</h1><p id="glutenModeTxt"></p></div>
-  <div class="card">
-    <input id="glutenSearch" placeholder="🔍 Rechercher un aliment (ex: pâtes)..." oninput="searchGluten(this.value)">
-    <div id="glutenList"></div></div>
-  <div class="card"><h3>🔁 Substitutions</h3><div id="glutenSubs"></div></div>
-</section>
-
-<section id="p-restau" class="page">
-  <div class="top"><h1>Manger dehors</h1><p>Choisis sans culpabiliser</p></div>
-  <div class="card"><h3>Catégorie</h3><div id="restauCats"></div></div>
-  <div class="card" id="restauDetail"></div>
-  <div class="card"><h3>💬 Assistant</h3>
-    <div class="chat" id="chat"></div>
-    <input id="chatIn" placeholder="« Je mange italien ce soir »" onkeydown="if(event.key==='Enter')sendChat()">
-    <button class="btn small" onclick="sendChat()">Envoyer</button></div>
-</section>
-
-<section id="p-scan" class="page">
-  <div class="top"><h1>Scan produit</h1><p>Démo — aucune analyse réelle</p></div>
-  <div class="card">
-    <div class="demo">⚠️ DÉMONSTRATION : aucun OCR ni base connectée. Résultats fictifs.</div>
-    <select id="scanSel" onchange="doScan(this.value)">
-      <option value="">— Choisir un produit exemple —</option>
-      <option value="pates">Pâtes au blé</option><option value="yaourt">Yaourt nature</option>
-      <option value="soda">Soda sucré</option><option value="saumon">Saumon fumé</option>
-      <option value="avoine">Flocons d'avoine</option>
-    </select>
-    <div id="scanResult" style="margin-top:10px"></div>
-  </div>
-</section>
-
-<nav class="nav">
-  <button data-p="p-home" class="on" onclick="go('p-home',this)"><span class="ic">🏠</span>Accueil</button>
-  <button data-p="p-profile" onclick="go('p-profile',this)"><span class="ic">👤</span>Profil</button>
-  <button data-p="p-recipes" onclick="go('p-recipes',this)"><span class="ic">🍽️</span>Recettes</button>
-  <button data-p="p-shop" onclick="go('p-shop',this)"><span class="ic">🛒</span>Courses</button>
-  <button data-p="p-suivi" onclick="go('p-suivi',this)"><span class="ic">📈</span>Suivi</button>
-</nav>
 </div>
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-"use strict";
-/* ===== ÉTAT ===== */
-var DEFAULTS={profile:{name:"",sex:"femme",age:"",height:"",weight:"",goal:"équilibre",act:"modérée",gluten:"reduce",intol:[],patho:""},water:0,supToday:false,bilan:[],shop:[],pantry:[],filters:{},restau:"italien"};
-var L=JSON.parse(JSON.stringify(DEFAULTS));
-try{var saved=JSON.parse(localStorage.getItem("luma3")||"null");if(saved){for(var k in saved){L[k]=saved[k];}}}catch(e){}
-function save(){try{localStorage.setItem("luma3",JSON.stringify(L));}catch(e){}}
-function $(id){return document.getElementById(id);}
-
-/* ===== DONNÉES ===== */
-var RECIPES=[
- {n:"Salade de lentilles tièdes",t:15,dif:"Facile",cat:["dejeuner","rapide","vege"],p:18,g:32,l:12,f:10,c:290,all:[],ing:"lentilles, tomates, oignon, huile d'olive",alt:"Quinoa à la place des lentilles"},
- {n:"Poulet rôti aux légumes racines",t:45,dif:"Moyen",cat:["diner","assiette3"],p:35,g:18,l:14,f:5,c:380,all:[],ing:"poulet, carottes, panais, thym",alt:"Tofu pour version végé"},
- {n:"Soupe de courgettes au lait de coco",t:25,dif:"Facile",cat:["diner","rapide","vege","assiette3"],p:8,g:20,l:16,f:6,c:220,all:[],ing:"courgettes, lait de coco, curry",alt:"Lait de coco allégé"},
- {n:"Œufs brouillés aux épinards",t:10,dif:"Facile",cat:["petitdej","rapide"],p:14,g:3,l:12,f:2,c:200,all:["oeuf"],ing:"œufs, épinards, huile",alt:"Tofu brouillé (vegan)"},
- {n:"Saumon au four, asperges",t:20,dif:"Facile",cat:["diner","rapide","assiette3"],p:30,g:6,l:16,f:3,c:320,all:["poisson"],ing:"saumon, asperges, citron",alt:"Maquereau"},
- {n:"Curry de pois chiches",t:30,dif:"Facile",cat:["dejeuner","vege","batch"],p:15,g:48,l:14,f:12,c:420,all:[],ing:"pois chiches, lait de coco, tomates, épices",alt:"Lentilles corail"},
- {n:"Porridge pommes-cannelle",t:10,dif:"Facile",cat:["petitdej","rapide"],p:8,g:40,l:6,f:6,c:260,all:[],ing:"flocons d'avoine, pomme, cannelle",alt:"Flocons de sarrasin"},
- {n:"Wok de tofu aux légumes",t:20,dif:"Facile",cat:["diner","rapide","vege","assiette3"],p:20,g:25,l:12,f:7,c:300,all:["soja"],ing:"tofu, poivron, brocoli, sauce soja (vérifier gluten)",alt:"Poulet"},
- {n:"Gratin de chou-fleur",t:40,dif:"Moyen",cat:["diner","batch"],p:12,g:22,l:18,f:6,c:340,all:["lactose"],ing:"chou-fleur, crème, fromage",alt:"Crème de cajou + levure nutritionnelle"},
- {n:"Tartine avocat-saumon",t:8,dif:"Facile",cat:["petitdej","rapide"],p:16,g:20,l:18,f:5,c:310,all:["poisson","gluten"],ing:"pain complet, avocat, saumon",alt:"Pain sans gluten + houmous"}
+/* ========= DONNÉES ========= */
+const RECIPES=[
+ {n:"Bol de quinoa, avocat & graines",t:15,d:"Facile",tags:["rapide","végé","sans gluten"],p:12,g:45,l:18,f:8,k:380},
+ {n:"Saumon rôti, asperges & citron",t:20,d:"Facile",tags:["rapide","riche en protéines"],p:32,g:10,l:20,f:4,k:340},
+ {n:"Curry de pois chiches au lait de coco",t:25,d:"Facile",tags:["végé","batch","sans gluten"],p:14,g:50,l:22,f:12,k:420},
+ {n:"Pâtes de riz complet, pesto & tomates",t:15,d:"Facile",tags:["rapide","sans gluten"],p:11,g:55,l:16,f:6,k:410},
+ {n:"Omelette aux épinards & feta",t:10,d:"Facile",tags:["rapide","protéines"],p:18,g:4,l:22,f:3,k:280},
+ {n:"Soupe de lentilles corail au curcuma",t:30,d:"Moyen",tags:["anti-inflammatoire","végé","sans gluten"],p:16,g:40,l:8,f:14,k:300},
+ {n:"Poulet rôti aux herbes & patate douce",t:35,d:"Moyen",tags:["batch"],p:30,g:38,l:10,f:6,k:380},
+ {n:"Smoothie bowl banane, fruits rouges",t:10,d:"Facile",tags:["petit-déj","rapide"],p:6,g:48,l:5,f:7,k:260}
 ];
-var ANTI=[["🥑 Avocat","acides gras mono-insaturés"],["🐟 Poissons gras","oméga-3"],["🫐 Fruits rouges","polyphénols"],["🥦 Crucifères","sulforaphane"],["🧅 Ail & oignon","composés soufrés"],["🫚 Gingembre & curcuma","curcumine"],["🍵 Thé vert","catéchines"],["🫒 Huile d'olive VE","oléocanthal"]];
-var PRO=[["🍬 Sucres ajoutés","pic glycémique"],["🍟 Fritures","acides gras trans"],["🥩 Viandes ultra-transformées","saturés excessifs"],["🧂 Excès de sel","rétention d'eau"]];
-var SUBS=[["Crème fraîche","Yaourt nature ou crème de cajou"],["Sucre blanc","Miel ou dattes (modérément)"],["Pâtes au blé","Pâtes de riz, sarrasin ou lentilles"],["Farine de blé","Farine de sarrasin, riz ou amande"],["Huile de tournesol","Huile d'olive ou colza"],["Lait de vache","Lait d'amande/avoine sans sucres"],["Sauce industrielle","Sauce tomate-basilic maison"],["Dessert industriel","Compote maison sans sucre"]];
-var GDB=[
- {n:"Pain, pâtes, blé, orge, seigle, épeautre",c:"R",alt:"Pain/pâtes au sarrasin, riz, maïs, quinoa"},
- {n:"Couscous (semoule de blé)",c:"R",alt:"Semoule de maïs ou quinoa"},
- {n:"Sauce soja classique",c:"O",alt:"Tamari certifié sans gluten"},
- {n:"Bière",c:"R",alt:"Bière sans gluten ou cidre"},
- {n:"Muesli / flocons d'avoine non certifiés",c:"O",alt:"Flocons d'avoine certifiés sans gluten"},
- {n:"Riz, quinoa, sarrasin, millet, maïs",c:"V",alt:"—"},
- {n:"Légumes, fruits, viandes, poissons, œufs, légumineuses",c:"V",alt:"—"},
- {n:"Pommes de terre, patates douces",c:"V",alt:"—"},
- {n:"Produits laitiers nature",c:"V",alt:"—"},
- {n:"Chocolat industriel, certaines sauces",c:"O",alt:"Vérifier l'étiquette « sans gluten »"}
+const ANTIINF=[["Curcuma","épices"],["Gingembre","racine"],["Saumon & sardines","oméga-3"],["Huile d'olive","matière grasse"],["Myrtilles & fruits rouges","antioxydants"],["Épinards & chou kale","légumes verts"],["Noix & amandes","oléagineux"],["Lentilles & pois chiches","légumineuses"]];
+const GLUTEN=[
+ {n:"Blé, farine de blé, pain, pâtes classiques",c:"red",r:"Farine de riz, sarrasin, maïs, quinoa"},
+ {n:"Orge, seigle, épeautre",c:"red",r:"Quinoa, sarrasin, riz complet"},
+ {n:"Semoule de couscous",c:"red",r:"Semoule de maïs, quinoa"},
+ {n:"Sauce soja classique",c:"red",r:"Tamari certifié sans gluten"},
+ {n:"Bière",c:"red",r:"Bière sans gluten ou cidre"},
+ {n:"Muesli, granola industriel",c:"orange",r:"Flocons d'avoine certifiés sans gluten"},
+ {n:"Plats préparés, sauces épaissies",c:"orange",r:"Cuisine maison, vérifier l'étiquette"},
+ {n:"Riz, quinoa, sarrasin, maïs",c:"green",r:"Naturellement sans gluten"},
+ {n:"Pommes de terre, patate douce",c:"green",r:"Naturellement sans gluten"},
+ {n:"Légumes, fruits, œufs, poisson, viande",c:"green",r:"Naturellement sans gluten"},
+ {n:"Lait, yaourt nature",c:"green",r:"Naturellement sans gluten"}
 ];
-var GSUBS=[["Pain blanc","Pain au sarrasin ou sans gluten"],["Pâtes","Nouilles de riz ou sarrasin (soba 100%)"],["Farine T55","Farine de riz, sarrasin ou coco"],["Couscous","Quinoa ou semoule de maïs"],["Bière","Bière sans gluten"],["Sauce soja","Tamari sans gluten"],["Croûtons","Graines grillées"]];
-var RESTAU={
- italien:{tips:["Plats grillés ou à la tomate","Sauce à part","Évite les pizzas très garnies"],ex:["Antipasti de légumes","Pâtes au poisson","Osso buco + salade"]},
- japonais:{tips:["Sashimi, maki simples","Sauce soja → tamari si strict","Évite les tempuras"],ex:["Sashimi de saumon","Maki concombre/avocat","Miso (vérifier)"]},
- asiatique:{tips:["Nouilles de riz plutôt que blé","Sauces souvent sucrées → allégées"],ex:["Pad thaï nouilles de riz","Curry thaï lait de coco","Rouleaux de printemps"]},
- libanais:{tips:["Légumes grillés, houmous","Pita contient du gluten"],ex:["Mezze mixtes","Poulet chich taouk","Taboulé (quinoa si strict)"]},
- indien:{tips:["Curry lait de coco, dal","Naan contient du blé → riz basmati"],ex:["Poulet tikka masala","Dal de lentilles","Riz basmati"]},
- brasserie:{tips:["Grillades, poissons, salades","Sauces à part"],ex:["Salade composée","Blanquette de poisson","Steak + légumes vapeur"]},
- fastfood:{tips:["Grillé plutôt que frit","Salade sans croûtons si strict","Eau plutôt que soda"],ex:["Menu grillé + salade","Bowl sans galette"]},
- traditionnel:{tips:["Mijotés maison souvent meilleurs","Sauce à part"],ex:["Poisson sauce légère","Légumes de saison rôtis"]},
- gastronomique:{tips:["Menu dégustation","Prévenir des restrictions"],ex:["Menu du marché","Poisson, légumes de saison"]},
- brunch:{tips:["Œufs, avocat, saumon","Évite viennoiseries si gluten"],ex:["Œufs bénédicte (pain SG)","Avocat toast pain SG"]}
-};
-var SCANS={
- pates:{n:"Pâtes au blé (fictif)",g:"✖ Contient du gluten (blé)",s:"Faibles",p:"12g/100g",c:"❌ Incompatible mode strict — ok en réduction",a:"Pâtes de riz ou sarrasin"},
- yaourt:{n:"Yaourt nature (fictif)",g:"✔ Naturellement sans gluten",s:"4g/100g (lactose naturel)",p:"4g/100g",c:"✅ Compatible",a:"Skyr pour plus de protéines"},
- soda:{n:"Soda sucré (fictif)",g:"✔ Sans gluten",s:"⚠️ Très sucré — à limiter",p:"0g",c:"⚠️ Occasionnel uniquement",a:"Eau pétillante + citron"},
- saumon:{n:"Saumon fumé (fictif)",g:"⚠️ Vérifier l'étiquette",s:"Faibles",p:"20g/100g (oméga-3)",c:"✅ Excellent choix anti-inflammatoire",a:"Maquereau ou sardine"},
- avoine:{n:"Flocons d'avoine (fictif)",g:"⚠️ Contamination possible — choisir certifié SG en strict",s:"Faibles",p:"13g/100g",c:"✅ Bon choix (fibres)",a:"Flocons de sarrasin"}
-};
+const RESTO={ "Français":"Privilégiez les plats grillés, demandez la sauce à part, méfiez-vous des sauces épaissies à la farine.",
+ "Italien":"Risotto et pâtes fraîches contiennent du gluten — demandez du riz ou des pâtes sans gluten si disponibles.",
+ "Asiatique":"Sauce soja classique = gluten. Demandez du tamari sans gluten, privilégiez le riz.",
+ "Fast-food":"Burgers et panures contiennent du blé — optez pour une salade ou un bowl de riz."};
+const SCANS={pates:"Pâtes classiques au blé",sauce:"Sauce soja classique",yaourt:"Yaourt nature",flocons:"Flocons d'avoine standard"};
+const TIPS=["Buvez un grand verre d'eau au réveil.","Ajoutez une poignée d'oléagineux à votre collation.","Privilégiez les légumes de saison.","Mangez lentement, sans écran."];
+const $=id=>document.getElementById(id);
+let U=null; // utilisateur courant
 
-/* ===== NAV ===== */
-function go(id,btn){
-  var pages=document.querySelectorAll(".page");
-  for(var i=0;i<pages.length;i++)pages[i].classList.remove("active");
-  $(id).classList.add("active");
-  var btns=document.querySelectorAll(".nav button");
-  for(var j=0;j<btns.length;j++)btns[j].classList.remove("on");
-  (btn||document.querySelector('[data-p="'+id+'"]')).classList.add("on");
-  try{
-    if(id==="p-home")renderHome();
-    if(id==="p-recipes"){renderFilters();renderRecipes();}
-    if(id==="p-shop")renderShop();
-    if(id==="p-gluten")renderGluten();
-    if(id==="p-restau")renderRestau();
-    if(id==="p-guide")renderGuide();
-    if(id==="p-suivi")renderChart();
-    if(id==="p-profile")renderProfile();
-  }catch(e){console.error(e);}
-  window.scrollTo(0,0);
-}
+/* ========= STOCKAGE PAR UTILISATEUR ========= */
+const key=s=>"luma_"+(U?U.email:"anon")+"_"+s;
+function load(s,d){try{return JSON.parse(localStorage.getItem(key(s)))??d}catch(e){return d}}
+function save(s,v){localStorage.setItem(key(s),JSON.stringify(v))}
 
-/* ===== ACCUEIL ===== */
-function renderHome(){
-  var d=new Date();
-  $("homeDate").textContent=d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
-  $("homeHello").textContent="Bonjour "+(L.profile.name||"👋");
-  $("waterBar").style.width=(L.water/8*100)+"%";
-  $("waterTxt").textContent=L.water+"/8";
-  $("sup1").checked=!!L.supToday;
-  $("todayMeals").innerHTML=["☀️ Petit-déjeuner","🌞 Déjeuner","🌙 Dîner — 3/4 légumes + 1/4 protéines"].map(function(m){return '<div class="row"><span>'+m+'</span></div>';}).join("");
-}
-function addWater(){L.water=Math.min(8,L.water+1);save();renderHome();}
-function takeSup(v){L.supToday=v;save();}
+/* ========= NAV ========= */
+function go(p,btn){document.querySelectorAll(".page").forEach(e=>e.classList.remove("active"));$(p).classList.add("active");
+ document.querySelectorAll("#nav button").forEach(b=>b.classList.remove("on"));btn.classList.add("on");
+ if(p==="p-guides"){renderGluten();renderRestau();}
+ if(p==="p-meals")renderMeals();
+ if(p==="p-shop")renderShop();
+ if(p==="p-track")renderChart();
+ if(p==="p-home")renderHome();}
 
-/* ===== PROFIL ===== */
-var INTOLS=["gluten","lactose","histamine","FODMAPs","oeuf","arachides","soja","poisson"];
-function renderProfile(){
-  var p=L.profile;
-  $("prName").value=p.name;$("prSex").value=p.sex;$("prAge").value=p.age;$("prHeight").value=p.height;
-  $("prWeight").value=p.weight;$("prGoal").value=p.goal;$("prAct").value=p.act;$("prPatho").value=p.patho||"";
-  $("prIntol").innerHTML=INTOLS.map(function(t){return '<span class="chip'+(p.intol.indexOf(t)>=0?" on":"")+'" onclick="toggleIntol(\''+t+'\')">'+t+"</span>";}).join("");
-  renderGlutenBtns();
-}
-function toggleIntol(t){var i=L.profile.intol.indexOf(t);if(i>=0)L.profile.intol.splice(i,1);else L.profile.intol.push(t);renderProfile();}
-function renderGlutenBtns(){
-  var m=L.profile.gluten;
-  $("glutenModeBtns").innerHTML=
-   '<span class="chip'+(m==="reduce"?" on":"")+'" onclick="setGluten(\'reduce\')">Réduction</span>'+
-   '<span class="chip warn'+(m==="strict"?" on":"")+'" onclick="setGluten(\'strict\')">Strict</span>'+
-   '<span class="chip'+(m==="none"?" on":"")+'" onclick="setGluten(\'none\')">Aucune</span>';
-}
-function setGluten(m){L.profile.gluten=m;save();renderGlutenBtns();renderRecipes();}
+/* ========= PROFIL ========= */
 function saveProfile(){
-  var p=L.profile;
-  p.name=$("prName").value;p.sex=$("prSex").value;p.age=$("prAge").value;p.height=$("prHeight").value;
-  p.weight=$("prWeight").value;p.goal=$("prGoal").value;p.act=$("prAct").value;p.patho=$("prPatho").value;
-  save();renderHome();renderRecipes();
-  $("profMsg").textContent="✅ Profil enregistré — recettes adaptées.";
-}
+ const p={name:$("f-name").value,sex:$("f-sex").value,age:$("f-age").value,height:$("f-height").value,
+ weight:$("f-weight").value,goal:$("f-goal").value,gluten:$("f-gluten").value,intol:$("f-intol").value,patho:$("f-patho").value};
+ save("profile",p);renderHome();alert("Profil enregistré ✅");}
+function fillProfile(){const p=load("profile",{});for(const k of ["name","sex","age","height","weight","goal","gluten","intol","patho"])$("f-"+k).value=p[k]||"";}
 
-/* ===== RECETTES ===== */
-var FILTERS=[["rapide","⚡ <30 min"],["vege","🌱 Végétarien"],["assiette3","🥗 Assiette n°3"],["batch","📦 Batch"],["petitdej","☀️ Petit-déj"],["dejeuner","🌞 Déjeuner"],["diner","🌙 Dîner"]];
-function renderFilters(){
-  $("recFilters").innerHTML=FILTERS.map(function(f){var k=f[0];return '<span class="chip'+(L.filters[k]?" on":"")+'" onclick="toggleFilter(\''+k+'\')">'+f[1]+"</span>";}).join("");
+/* ========= ACCUEIL ========= */
+function renderHome(){
+ const p=load("profile",{});$("hello").textContent="Bonjour "+(p.name||"");
+ $("homeDate").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+ const meals=load("meals",["Petit-déjeuner","Déjeuner","Dîner"]);$("todayMeals").innerHTML=meals.map(m=>'<div class="row"><span>🍽️ '+m+'</span><span>prévu</span></div>').join("");
+ $("supps").innerHTML=(load("supps",["Vitamine D — le matin","Oméga-3 — au repas"])).map(s=>'<div class="row"><span>💊 '+s+'</span><span>☐</span></div>').join("");
+ $("tip").textContent=TIPS[new Date().getDay()%TIPS.length];
+ const w=load("water",0);$("waterBar").style.width=Math.min(w*12.5,100)+"%";$("waterTxt").textContent=w+"/8 verres";
 }
-function toggleFilter(k){L.filters[k]=!L.filters[k];save();renderFilters();renderRecipes();}
-function renderRecipes(){
-  var p=L.profile,act=Object.keys(L.filters).filter(function(k){return L.filters[k];});
-  var rs=RECIPES.filter(function(r){
-    if(act.length){var ok=false;for(var i=0;i<act.length;i++){if(r.cat.indexOf(act[i])>=0){ok=true;break;}}if(!ok)return false;}
-    for(var j=0;j<p.intol.length;j++){if(r.all.indexOf(p.intol[j])>=0)return false;}
-    if(p.gluten==="strict"&&r.all.indexOf("gluten")>=0)return false;
-    return true;
-  });
-  $("recCount").textContent=rs.length+" recette(s) adaptées à ton profil";
-  $("recList").innerHTML=rs.map(function(r){return '<div class="card"><h4>'+r.n+'</h4><div style="font-size:.72rem;color:#8a8378">⏱️ '+r.t+' min · '+r.dif+' · '+r.c+' kcal · P'+r.p+' G'+r.g+' L'+r.l+' F'+r.f+'</div><p style="font-size:.8rem;margin:6px 0"><b>Ingrédients :</b> '+r.ing+'</p><p style="font-size:.78rem;color:var(--lichen)"><b>Alternative :</b> '+r.alt+'</p></div>';}).join("")||"<p>Aucune recette — assouplis les filtres.</p>";
-}
+function addWater(){save("water",load("water",0)+1);renderHome();}
 
-/* ===== COURSES ===== */
-function renderShop(){
-  if(!L.shop.length)L.shop=["Saumon frais","Courgettes","Lentilles sèches","Quinoa","Huile d'olive","Amandes","Skyr nature","Pommes"];
-  $("shopList").innerHTML=L.shop.map(function(s,i){return '<div class="chk"><input type="checkbox" onchange="if(this.checked){L.shop.splice('+i+',1);save();renderShop();}}"><span>'+s+'</span></div>';}).join("");
-  if(!L.pantry.length)L.pantry=["Riz","Quinoa","Lentilles","Pois chiches","Huile d'olive","Épices","Thé vert"];
-  $("pantry").innerHTML=L.pantry.map(function(s,i){return '<span class="chip">'+s+' <b style="cursor:pointer" onclick="L.pantry.splice('+i+',1);save();renderShop()">✕</b></span>';}).join("");
+/* ========= REPAS ========= */
+function renderMeals(){
+ const f=load("mealFilters",["rapide"]);
+ $("mealFilters").innerHTML=["rapide","végé","sans gluten","anti-inflammatoire","batch","protéines"].map(t=>'<button class="chip '+(f.includes(t)?"on":"")+'" onclick="toggleF(\''+t+'\')">'+t+'</button>').join("");
+ const p=load("profile",{});let list=RECIPES.filter(r=>r.tags.some(t=>f.includes(t)));
+ if(p.gluten==="strict")list=list.filter(r=>!r.tags.includes("gluten")&&r.tags.includes("sans gluten")||r.tags.includes("sans gluten"));
+ $("mealList").innerHTML=list.map(r=>'<div class="card recipe"><b>'+r.n+'</b> <span class="tag">⏱ '+r.t+' min</span><span class="tag">'+r.d+'</span><br><span style="font-size:.75rem;color:#8a8378">P '+r.p+'g · G '+r.g+'g · L '+r.l+'g · F '+r.f+'g · ~'+r.k+' kcal</span></div>').join("")||"<p style='font-size:.8rem'>Aucune recette pour ces filtres.</p>";
 }
-function addShopItem(){var s=prompt("Produit à ajouter ?");if(s){L.shop.push(s);save();renderShop();}}
-function addPantryItem(){var s=prompt("Produit du placard ?");if(s){L.pantry.push(s);save();renderShop();}}
+function toggleF(t){let f=load("mealFilters",["rapide"]);f=f.includes(t)?f.filter(x=>x!==t):[...f,t];save("mealFilters",f);renderMeals();}
 
-/* ===== SUIVI ===== */
-function renderChart(){
-  var vals=(L.bilan.slice(-7).map(function(b){return +b.energie||5;}));
-  if(!vals.length)vals=[6,7,5,8,6,7,7];
-  $("chart").innerHTML=vals.map(function(v){return '<div style="height:'+Math.max(10,v*10)+'%"></div>';}).join("");
-}
-function saveBilan(){L.bilan.push({date:Date.now(),energie:$("sEnergie").value,sommeil:$("sSommeil").value,digestion:$("sDigestion").value});save();renderChart();$("bilanMsg").textContent="✅ Bilan enregistré.";}
-
-/* ===== GUIDE ===== */
-function renderGuide(){
-  $("antiInf").innerHTML=ANTI.map(function(a){return '<div class="row"><span>'+a[0]+'</span><span style="font-size:.72rem;color:#8a8378">'+a[1]+"</span></div>";}).join("");
-  $("proInf").innerHTML=PRO.map(function(a){return '<div class="row"><span>'+a[0]+'</span><span style="font-size:.72rem;color:#8a4a3a">'+a[1]+"</span></div>";}).join("");
-  $("subs").innerHTML=SUBS.map(function(s){return '<div class="row"><span>'+s[0]+'</span><span>→ <b>'+s[1]+"</b></span></div>";}).join("");
-}
-
-/* ===== GLUTEN ===== */
+/* ========= GUIDES ========= */
 function renderGluten(){
-  var m=L.profile.gluten;
-  $("glutenModeTxt").textContent="Mode : "+(m==="reduce"?"Réduction du gluten":m==="strict"?"Sans gluten strict":"Aucune restriction");
-  renderGlutenList(GDB);
-  $("glutenSubs").innerHTML=GSUBS.map(function(s){return '<div class="row"><span>'+s[0]+'</span><span>→ <b>'+s[1]+"</b></span></div>";}).join("");
+ $("antiInf").innerHTML=ANTIINF.map(a=>'<div class="row"><span>🔥 '+a[0]+'</span><span style="color:#8a8378">'+a[1]+'</span></div>').join("");
+ const q=$("glutenSearch").value.toLowerCase();
+ $("glutenList").innerHTML=GLUTEN.filter(g=>g.n.toLowerCase().includes(q)).map(g=>{
+  const b=g.c==="green"?"b-green":g.c==="orange"?"b-orange":"b-red";
+  const l=g.c==="green"?"Sans gluten":g.c==="orange"?"Vérifier l'étiquette":"Contient du gluten";
+  return '<div class="row"><span>'+g.n+' <span class="badge '+b+'">'+l+'</span></span><span style="font-size:.72rem;color:#8a8378;text-align:right">→ '+g.r+'</span></div>';}).join("");
 }
-function renderGlutenList(list){
-  $("glutenList").innerHTML=list.map(function(g){
-    var lbl=g.c==="V"?"✔ Naturellement SG":g.c==="O"?"⚠ Vérifier l'étiquette":"✖ Contient du gluten";
-    return '<div class="row"><span>'+g.n+'</span><span class="gf'+g.c+'">'+lbl+'</span></div><p style="font-size:.75rem;color:var(--lichen);margin:2px 0 8px">Alternative : '+g.alt+"</p>";
-  }).join("");
-}
-function searchGluten(q){
-  q=(q||"").toLowerCase();
-  if(!q){renderGlutenList(GDB);return;}
-  renderGlutenList(GDB.filter(function(g){return g.n.toLowerCase().indexOf(q)>=0;}));
-}
-
-/* ===== RESTAURANT ===== */
 function renderRestau(){
-  var cats=Object.keys(RESTAU);
-  $("restauCats").innerHTML=cats.map(function(c){return '<span class="chip'+(L.restau===c?" on":"")+'" onclick="L.restau=\''+c+'\';save();renderRestau()">'+c[0].toUpperCase()+c.slice(1)+"</span>";}).join("");
-  var r=RESTAU[L.restau];if(!r)r=RESTAU.italien;
-  $("restauDetail").innerHTML="<h3>"+L.restau[0].toUpperCase()+L.restau.slice(1)+'</h3><p style="font-size:.85rem"><b>Conseils :</b></p><ul style="font-size:.8rem;padding-left:18px">'+r.tips.map(function(t){return "<li>"+t+"</li>";}).join("")+'</ul><p style="font-size:.85rem"><b>Exemples :</b></p><ul style="font-size:.8rem;padding-left:18px">'+r.ex.map(function(e){return "<li>"+e+"</li>";}).join("")+"</ul>";
+ $("restauChips").innerHTML=Object.keys(RESTO).map((k,i)=>'<button class="chip '+(i===0?"on":"")+'" onclick="setResto(this,\''+k+'\')">'+k+'</button>').join("");
+ setResto($("restauChips").firstChild,Object.keys(RESTO)[0]);
 }
-function sendChat(){
-  var inp=$("chatIn"),q=inp.value.trim();if(!q)return;
-  var chat=$("chat");
-  chat.innerHTML+='<div class="msg user">'+q.replace(/</g,"<")+'</div>';inp.value="";
-  var ql=q.toLowerCase(),rep="Choisis une catégorie ci-dessus pour des conseils détaillés. Règle d'or : légumes d'abord, sauce à part, aucune culpabilité 😊";
-  if(ql.indexOf("italien")>=0)rep="Italien ce soir ? Antipasti de légumes, pâtes au poisson ou grillade, sauce à part. 🍝";
-  else if(ql.indexOf("mcdonald")>=0||ql.indexOf("fast")>=0)rep="McDo : menu grillé plutôt que frit, salade sans croûtons (si strict), eau. Pas de compensation ensuite ! 🍔";
-  else if(ql.indexOf("client")>=0||ql.indexOf("pro")>=0)rep="Déjeuner pro : poisson ou volaille grillée + légumes, sauce à part. 🥗";
-  else if(ql.indexOf("japon")>=0)rep="Japonais : sashimi, maki simples. Évite les tempuras. 🍣";
-  chat.innerHTML+='<div class="msg bot">'+rep+"</div>";chat.scrollTop=chat.scrollHeight;
-}
+function setResto(el,k){document.querySelectorAll("#restauChips .chip").forEach(c=>c.classList.remove("on"));el.classList.add("on");$("restauAdvice").textContent=RESTO[k];}
+function doScan(k){if(!k){$("scanResult").innerHTML="";return;}
+ const g=k==="pates"||k==="sauce"?"Contient du gluten ⚠️":k==="flocons"?"Vérifier l'étiquette ⚠️":"Sans gluten ✅";
+ $("scanResult").innerHTML='<div class="row"><span>Produit</span><span>'+SCANS[k]+'</span></div><div class="row"><span>Gluten</span><span>'+g+'</span></div><div class="row"><span>Alternative</span><span>Version sans gluten en magasin bio</span></div>';}
+$("scanSel").innerHTML+='<option value="pates">Pâtes au blé</option><option value="sauce">Sauce soja</option><option value="yaourt">Yaourt nature</option><option value="flocons">Flocons d\'avoine</option>';
 
-/* ===== SCAN ===== */
-function doScan(k){
-  if(!k){$("scanResult").innerHTML="";return;}
-  var s=SCANS[k];if(!s)return;
-  $("scanResult").innerHTML='<div class="demo">⚠️ RÉSULTAT FICTIF — aucun scan réel</div>'+
-   '<div class="row"><span>Produit</span><span>'+s.n+'</span></div>'+
-   '<div class="row"><span>Gluten</span><span>'+s.g+'</span></div>'+
-   '<div class="row"><span>Sucres</span><span>'+s.s+'</span></div>'+
-   '<div class="row"><span>Protéines</span><span>'+s.p+'</span></div>'+
-   '<div class="row"><span>Compatibilité</span><span>'+s.c+'</span></div>'+
-   '<div class="row"><span>Alternative</span><span>'+s.a+"</span></div>";
+/* ========= COURSES ========= */
+function renderShop(){
+ const items=load("shop",["Œufs","Épinards","Saumon","Quinoa","Avocat"]);
+ $("shopList").innerHTML=items.map((it,i)=>'<div class="row"><span onclick="this.style.textDecoration=this.style.textDecoration?\'\\':\'line-through\'">'+it+'</span><button class="btn small ghost" onclick="delItem('+i+')">✕</button></div>').join("");
 }
+function addItem(){const v=$("newItem").value.trim();if(!v)return;const l=load("shop",[]);l.push(v);save("shop",l);$("newItem").value="";renderShop();}
+function delItem(i){const l=load("shop",[]);l.splice(i,1);save("shop",l);renderShop();}
 
-/* ===== INIT ===== */
-try{
-  $("homeDate").textContent=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
-  renderHome();renderProfile();renderFilters();renderRecipes();renderShop();renderGuide();renderGluten();renderRestau();renderChart();
-}catch(e){document.body.insertAdjacentHTML("beforeend",'<p style="color:red;padding:10px">Erreur au chargement : '+e.message+"</p>");}
+/* ========= SUIVI ========= */
+function saveTrack(){const d=new Date().toISOString().slice(0,10);
+ const t=load("track",[]);t.push({d,e:+$("t-energy").value||3,g:+$("t-digest").value||3,n:$("t-note").value});save("track",t);renderChart();alert("Enregistré ✅");}
+function renderChart(){const c=$("chart").getContext("2d");c.clearRect(0,0,320,120);
+ const t=load("track",[]).slice(-7);if(!t.length){c.fillStyle="#8a8378";c.font="12px sans-serif";c.fillText("Aucune donnée cette semaine",20,60);return;}
+ const max=Math.max(...t.map(x=>x.e),5);t.forEach((x,i)=>{const h=x.e/max*100;c.fillStyle="#8FA98F";c.fillRect(15+i*44,110-h,30,h);c.fillStyle="#3E3A33";c.font="10px sans-serif";c.fillText(x.d.slice(8),15+i*44,118);});}
+
+/* ========= AUTH NETLIFY ========= */
+netlifyIdentity.on("init",u=>applyUser(u));
+netlifyIdentity.on("login",u=>{applyUser(u);netlifyIdentity.close();});
+netlifyIdentity.on("logout",()=>location.reload());
+function applyUser(u){U=u;
+ if(u){$("authScreen").classList.add("hidden");$("app").classList.remove("hidden");
+  $("userEmail").textContent=u.email;fillProfile();renderHome();}
+ else{$("authScreen").classList.remove("hidden");$("app").classList.add("hidden");}}
 </script>
 </body>
 </html>
